@@ -26,6 +26,7 @@ export const BookConstant = {
     READING_LIST_IMG_ALT:"Readlist Loading",
     BOOKSEARCH_IMG_ALT:"Book Content Loading",
     WANT_TO_READ:"Want to Read",
+    READING_LIST_TOOLTIP:"Place order for this book",
     SNACKBAR_CONSTANTS: {
       BOOK_ADDED_TEXT: 'is added to the reading list!',
       BOOK_REMOVED_TEXT: 'is removed from the reading list!',

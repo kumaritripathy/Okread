@@ -55,5 +55,22 @@ export class ReadingListEffects {
     )
   );
 
+  updateBook$ = createEffect(() =>
+  this.actions$.pipe(
+    ofType(ReadingListActions.updateReadingList),
+    concatMap(({ item }) => {
+      return this.http
+        .put(`${BookConstant.API.READING_LIST_API}/${item.bookId}/${BookConstant.API.FINISHED}`, item)
+        .pipe(
+          map(() =>
+            ReadingListActions.confirmedUpdateToReadingList({ item })
+          ),
+          catchError((error) =>
+            of(ReadingListActions.failedUpdateToReadingList({error:BookConstant.ERROR}))
+          )
+        );
+    })
+  )
+);
   constructor(private actions$: Actions, private http: HttpClient) {}
 }

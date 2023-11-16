@@ -58,7 +58,27 @@ const readingListReducer = createReducer(
       ...state,
       error: action.error
     };
-  })
+  }),
+  
+  on(ReadingListActions.updateReadingList, (state, action) =>
+    readingListAdapter.updateOne(
+      {
+        id: action.item.bookId,
+        changes: {
+          finished: action.item.finished,
+          finishedDate: action.item.finishedDate,
+          ...action.item,
+        },
+      },
+      state
+    )
+  ),
+  on(ReadingListActions.failedUpdateToReadingList, (state, action) => {
+    return {
+      ...state,
+      error: action.error,
+    };
+  }),
 );
 
 export function reducer(state: State | undefined, action: Action) {
