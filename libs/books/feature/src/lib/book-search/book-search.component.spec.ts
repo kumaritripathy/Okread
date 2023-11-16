@@ -25,7 +25,7 @@ describe('BookSearchComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BookSearchComponent);
-    component = fixture.componentInstance;
+    component = fixture.debugElement.componentInstance;
     fixture.detectChanges();
   });
 
@@ -55,6 +55,39 @@ describe('BookSearchComponent', () => {
         '[data-testing="search-button"]'
       );
       expect(searchBtn.disabled).toBeFalsy();
+    });
+    it('Should check for the valid input', () => {
+      const el = fixture.nativeElement.querySelector('input');
+      dispatchEvent(new Event(el));
+      fixture.detectChanges();
+      expect(el.value).toBeDefined();
+    });
+  
+    it('Should check for null values', () => {
+      const formElement: HTMLFormElement = fixture.debugElement.nativeElement
+        .querySelector('#searchForm')
+        .querySelectorAll('input')[0];
+      formElement.value = 'javascript';
+      formElement.dispatchEvent(new Event('input'));
+      fixture.whenStable().then(() => {
+        const bookName = component.searchForm.get('term');
+        expect(formElement.value).toEqual(bookName.value);
+        expect(bookName.errors).toBeNull();
+      });
+    });
+  
+    it('Should check for text entered and no result for the searched', () => {
+      fixture.whenStable().then(() => {
+        spyOn(component, 'onSearchBookChange');
+        const searchEle = fixture.debugElement.nativeElement.querySelector(
+          '#searchTerm'
+        );
+        searchEle.value = 'JavaScript';
+        searchEle.dispatchEvent(new Event('change'));
+        fixture.detectChanges();
+        expect(component.onSearchBookChange).toHaveBeenCalledWith('JavaScript');
+        expect(searchEle.value).toEqual([])
+      });
     });
 });
 
