@@ -31,5 +31,9 @@ export const BookConstant = {
       BOOK_REMOVED_TEXT: 'is removed from the reading list!',
       UNDO: 'Undo',
       DURATION: 4000,
+      REMOVE: 'remove',
+      ADD: 'add',
+      BOOK_REMOVED_CLASS: 'bookRemoved',
+      BOOK_ADDED_CLASS: 'bookAdded'
     }
   }

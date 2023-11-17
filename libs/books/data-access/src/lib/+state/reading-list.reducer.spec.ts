@@ -29,7 +29,7 @@ describe('Reading list reducer', () => {
       expect(result.ids.length).toEqual(3);
     });
     
-    it('failedAddToReadingList should update state with error message and undo book addition to the reading list', () => {
+    it('should update state with error message and undo book addition to the reading list', () => {
       const error = 'Failed to add book to the reading list';
       const action = ReadingListActions.failedAddToReadingList({
         error
@@ -38,7 +38,7 @@ describe('Reading list reducer', () => {
       expect(result.ids).toEqual(['A', 'B']);
       expect(result.error).toEqual(error);
     });
-    it('confirmedAddToReadingList should add books to the reading list', () => {
+    it('should add books to the reading list', () => {
       const action = ReadingListActions.addToReadingList({
         book: createBook('C')
       });
@@ -53,8 +53,46 @@ describe('Reading list reducer', () => {
       const result: State = reducer(state, action);
       expect(result.ids).toEqual(['A']);
     });
+    it('should confirm Add To ReadingList  ', () => {
+      const action = ReadingListActions.confirmedAddToReadingList({
+        book: createBook('C'),
+        showSnackBar: true
+      });
+      const result: State = reducer(state, action);
+      expect(result.ids).toEqual(['A', 'B']);
+    });
+
+    it('should confirm Remove From ReadingList', () => {
+      const action = ReadingListActions.confirmedRemoveFromReadingList({
+        item: createReadingListItem('B'),
+        showSnackBar: true
+      });
+      const result: State = reducer(state, action);
+      expect(result.ids).toEqual(['A', 'B']);
+    });
+
+    it('should fail Add To ReadingList', () => {
+      const error = 'Failed to add book to the reading list';
+      const action = ReadingListActions.failedAddToReadingList({
+        error
+      });
+      const result: State = reducer(state, action);
+      expect(result.ids).toEqual(['A', 'B']);
+      expect(result.error).toEqual(null);
+    });
   })
 
+  it('should failed Remove From ReadingList', () => {
+    const error = 'Failed to remove book from the reading list!';
+    const action = ReadingListActions.failedRemoveFromReadingList({
+      error
+    });
+    const result: State = reducer(state, action);
+    expect(result.ids).toEqual(['A', 'B']);
+    expect(result.error).toEqual(null);
+  });
+
+});
   describe('unknown action', () => {    
     it('should return the previous state', () => {
       const action = {} as any;
@@ -62,4 +100,3 @@ describe('Reading list reducer', () => {
       expect(result).toEqual(initialState);
     });
   });
-});

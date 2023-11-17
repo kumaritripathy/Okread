@@ -1,11 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedTestingModule } from '@tmo/shared/testing';
+import { SharedTestingModule, createBook } from '@tmo/shared/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { BooksFeatureModule } from '../books-feature.module';
 import { BookSearchComponent } from './book-search.component';
 import { Store } from '@ngrx/store';
 import { Book } from '@tmo/shared/models';
+import { getAllBooks, searchBooks } from '@tmo/books/data-access';
 
 
 describe('BookSearchComponent', () => {
