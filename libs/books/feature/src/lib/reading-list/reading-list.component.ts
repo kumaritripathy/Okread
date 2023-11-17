@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { getReadingList, removeFromReadingList } from '@tmo/books/data-access';
+import { getReadingList, removeFromReadingList,updateReadingList } from '@tmo/books/data-access';
 import { BookConstant} from '@tmo/shared/models';
 
 @Component({
@@ -9,12 +9,27 @@ import { BookConstant} from '@tmo/shared/models';
   styleUrls: ['./reading-list.component.scss']
 })
 export class ReadingListComponent {
+
   readingList$ = this.store.select(getReadingList);
   readonly bookConstant = BookConstant;
 
   constructor(private readonly store: Store) {}
 
-  removeFromReadingList(item) {
+  removeFromReadingList(readingItem) {
+    const item = {
+      ...readingItem,
+      finished: false,
+      finishedDate: '',
+    };
     this.store.dispatch(removeFromReadingList({ item }));
+  }
+
+  updateReadingList(readingItem) {
+    const item = {
+      ...readingItem,
+      finished: true,
+      finishedDate: new Date().toISOString(),
+    };
+    this.store.dispatch(updateReadingList({ item }));
   }
 }

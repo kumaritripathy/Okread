@@ -8,6 +8,12 @@
       <div class="reading-list-item--details--author">
         {{ book.authors.join(',') }}
       </div>
+      <div class="reading-list-item--details--author">{{book.finishedDate}}</div>
+    </div>
+    <div>
+      <button data-testing="mark-as-finished" mat-raised-button color="{{book.finished ? 'disabled': 'primary' }}"  [disabled]="book.finished" matTooltip="{{bookConstant.READING_LIST_TOOLTIP}}" (click)="updateReadingList(book)">
+        {{book.finished ? 'Finished': 'Order' }}   
+      </button>
     </div>
     <div>
       <button
